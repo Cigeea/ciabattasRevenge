@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import Sprite from "./components/object-graphics/Sprite";
+import { useEffect, useState } from "react";
+import { SPRITE_SHEET_SRC } from "./helpers/consts";
 
 function App() {
+  const [spriteSheetImage, setSpriteSheetImage] = useState(null);
+
+  useEffect(() => {
+    const image = new Image();
+    image.src = SPRITE_SHEET_SRC;
+    image.onload = () => {
+      setSpriteSheetImage(image);
+    };
+  }, []);
+
+  if (!spriteSheetImage) {
+    return null;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Sprite image={spriteSheetImage} frameCoord={"1x0"} />
+      <Sprite image={spriteSheetImage} frameCoord={"0x2"} />
+      <Sprite image={spriteSheetImage} frameCoord={"0x3"} />
     </div>
   );
 }
