@@ -13,8 +13,8 @@ export class DirectionControls {
       ArrowLeft: DIRECTION_LEFT,
       ArrowRight: DIRECTION_RIGHT,
       s: DIRECTION_DOWN,
-      w: DIRECTION_UP,
-      a: DIRECTION_LEFT,
+      z: DIRECTION_UP,
+      q: DIRECTION_LEFT,
       d: DIRECTION_RIGHT,
     };
     this.heldDirections = [];
