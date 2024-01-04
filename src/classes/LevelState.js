@@ -1,10 +1,10 @@
-import { TILES } from "../helpers/tiles";
 import {
   LEVEL_THEMES,
   PLACEMENT_TYPE_GOAL,
   PLACEMENT_TYPE_HERO,
 } from "../helpers/consts";
 import { placementFactory } from "./PlacementFactory";
+import { GameLoop } from "./GameLoop";
 
 export class LevelState {
   constructor(levelId, onEmit) {
@@ -17,7 +17,7 @@ export class LevelState {
 
   start() {
     this.theme = LEVEL_THEMES.BLUE;
-    this.tilesWidth = 8;
+    this.tilesWidth = 8; //Largeur du niveau en nombre de tuile
     this.tilesHeight = 8;
     this.placements = [
       { id: 0, x: 2, y: 2, type: PLACEMENT_TYPE_HERO },
@@ -25,6 +25,24 @@ export class LevelState {
     ].map((config) => {
       return placementFactory.createPlacement(config, this);
     });
+    this.startGameLoop();
+  }
+
+  startGameLoop() {
+    this.gameLoop?.stop();
+    this.gameLoop = new GameLoop(() => {
+      this.tick();
+    });
+  }
+
+  tick() {
+    // Call 'tick' on any Placement that wants to update
+    this.placements.forEach((placement) => {
+      placement.tick();
+    });
+
+    //Emit any changes to React
+    this.onEmit(this.getState());
   }
 
   getState() {
