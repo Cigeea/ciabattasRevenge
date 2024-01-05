@@ -22,6 +22,10 @@ export class Placement {
 
   tick() {}
 
+  zIndex() {
+    return 1;
+  }
+
   isSolidForBody(_body) {
     return false;
   }
